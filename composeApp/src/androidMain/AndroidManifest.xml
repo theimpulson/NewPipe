@@ -3,11 +3,22 @@
   ~ SPDX-FileCopyrightText: 2026 NewPipe e.V. <https://newpipe-ev.de>
   ~ SPDX-License-Identifier: GPL-3.0-or-later
   -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <application>
         <activity
             android:name="net.newpipe.app.ComposeActivity"
             android:exported="false" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="net.newpipe.app.utils.AppContextWrapper"
+                android:value="androidx.startup" />
+        </provider>
     </application>
 </manifest>

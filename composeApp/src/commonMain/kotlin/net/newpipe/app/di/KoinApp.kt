@@ -5,10 +5,12 @@
 
 package net.newpipe.app.di
 
+import org.koin.core.annotation.ComponentScan
 import org.koin.core.annotation.KoinApplication
 
 /**
  * Entry point for Koin-related configuration
  */
 @KoinApplication
+@ComponentScan
 object KoinApp
