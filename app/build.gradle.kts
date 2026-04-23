@@ -15,7 +15,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlinx.serialization)
     alias(libs.plugins.google.ksp)
     alias(libs.plugins.sonarqube)
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.koin)
     alias(libs.plugins.about.libraries)
     checkstyle
 }
@@ -265,7 +265,6 @@ dependencies {
 
     // Jetpack Compose related dependencies
     implementation(libs.androidx.paging.compose)
-    implementation(libs.androidx.hilt.navigation.compose)
 
     // Coroutines interop
     implementation(libs.kotlinx.coroutines.rx3)
@@ -273,9 +272,9 @@ dependencies {
     // Library loading for About screen
     implementation(libs.about.libraries.compose.m3)
 
-    // Hilt
-    implementation(libs.hilt.android)
-    ksp(libs.hilt.compiler)
+    // Koin
+    implementation(libs.koin.compose.viewmodel)
+    implementation(libs.koin.annotations)
 
     // Scroll
     implementation(libs.lazy.column.scrollbar)

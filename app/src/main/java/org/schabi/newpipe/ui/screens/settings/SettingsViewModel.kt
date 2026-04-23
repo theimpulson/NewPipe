@@ -8,16 +8,11 @@ package org.schabi.newpipe.ui.screens.settings
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import org.koin.core.annotation.KoinViewModel
 import org.schabi.newpipe.R
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
-    @ApplicationContext context: Context,
-    preferenceManager: SharedPreferences
-) : ViewModel() {
+@KoinViewModel
+class SettingsViewModel(context: Context, preferenceManager: SharedPreferences) : ViewModel() {
 
     private val settingsLayoutRedesignPref =
         BooleanPreference(

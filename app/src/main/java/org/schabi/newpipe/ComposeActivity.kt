@@ -15,8 +15,10 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation3.runtime.NavKey
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.compose.KoinApplication
+import org.koin.plugin.module.dsl.koinConfiguration
 import org.schabi.newpipe.error.ErrorInfo
+import org.schabi.newpipe.koin.KoinApp
 import org.schabi.newpipe.navigation.NavDisplay
 import org.schabi.newpipe.navigation.Screen
 import org.schabi.newpipe.ui.theme.AppTheme
@@ -26,7 +28,6 @@ import org.schabi.newpipe.ui.theme.AppTheme
  * Other parts of the app (including legacy View-based code) launch this activity
  * via Intent with extras specifying which screen to display.
  */
-@AndroidEntryPoint
 class ComposeActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,8 +42,10 @@ class ComposeActivity : ComponentActivity() {
         val startDestination: NavKey = resolveStartDestination(intent)
 
         setContent {
-            AppTheme {
-                NavDisplay(startDestination)
+            KoinApplication(configuration = koinConfiguration<KoinApp>()) {
+                AppTheme {
+                    NavDisplay(startDestination)
+                }
             }
         }
     }

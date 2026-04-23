@@ -10,21 +10,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import org.koin.core.annotation.KoinViewModel
 import org.schabi.newpipe.R
 import org.schabi.newpipe.local.feed.notifications.NotificationWorker
 import org.schabi.newpipe.settings.DebugSettingsBVDLeakCanaryAPI
 import org.schabi.newpipe.ui.screens.settings.BooleanPreference
 
-@HiltViewModel
-class DebugSettingsViewModel @Inject constructor(
-    @ApplicationContext context: Context,
-    preferenceManager: SharedPreferences
-) : ViewModel() {
+@KoinViewModel
+class DebugSettingsViewModel(context: Context, preferenceManager: SharedPreferences) : ViewModel() {
 
     private val application = context.applicationContext as Application
 
