@@ -83,7 +83,6 @@ kotlin {
             implementation(libs.jetbrains.compose.preview)
             implementation(libs.androidx.activity)
             implementation(libs.androidx.preference)
-            implementation(libs.androidx.startup.runtime)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

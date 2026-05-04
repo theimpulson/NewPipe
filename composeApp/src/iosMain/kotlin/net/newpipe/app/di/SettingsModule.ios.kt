@@ -14,7 +14,7 @@ import platform.Foundation.NSUserDefaults
 
 @Module
 @Configuration
-actual object SettingsModule {
+actual class SettingsModule {
 
     @Singleton
     actual fun provideSettings(): Settings = NSUserDefaultsSettings(NSUserDefaults())

@@ -14,7 +14,7 @@ import java.util.prefs.Preferences
 
 @Module
 @Configuration
-actual object SettingsModule {
+actual class SettingsModule {
 
     @Singleton
     actual fun provideSettings(): Settings = PreferencesSettings(Preferences.userRoot())
