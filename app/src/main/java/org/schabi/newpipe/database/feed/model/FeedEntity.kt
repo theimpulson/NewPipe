@@ -35,10 +35,10 @@ import org.schabi.newpipe.database.subscription.SubscriptionEntity
 )
 data class FeedEntity(
     @ColumnInfo(name = STREAM_ID)
-    var streamId: Long,
+    val streamId: Long,
 
     @ColumnInfo(name = SUBSCRIPTION_ID)
-    var subscriptionId: Long
+    val subscriptionId: Long
 ) {
 
     companion object {

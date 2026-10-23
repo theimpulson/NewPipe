@@ -131,21 +131,21 @@ abstract class StreamDAO : BasicDAO<StreamEntity> {
      */
     internal data class StreamCompareFeed(
         @ColumnInfo(name = STREAM_ID)
-        var uid: Long = 0,
+        val uid: Long = 0,
 
         @ColumnInfo(name = StreamEntity.STREAM_TYPE)
-        var streamType: StreamType,
+        val streamType: StreamType,
 
         @ColumnInfo(name = StreamEntity.STREAM_TEXTUAL_UPLOAD_DATE)
-        var textualUploadDate: String? = null,
+        val textualUploadDate: String? = null,
 
         @ColumnInfo(name = StreamEntity.STREAM_UPLOAD_DATE)
-        var uploadDate: OffsetDateTime? = null,
+        val uploadDate: OffsetDateTime? = null,
 
         @ColumnInfo(name = StreamEntity.STREAM_IS_UPLOAD_DATE_APPROXIMATION)
-        var isUploadDateApproximation: Boolean? = null,
+        val isUploadDateApproximation: Boolean? = null,
 
         @ColumnInfo(name = StreamEntity.STREAM_DURATION)
-        var duration: Long
+        val duration: Long
     )
 }

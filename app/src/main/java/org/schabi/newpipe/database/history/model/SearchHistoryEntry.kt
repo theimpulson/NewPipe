@@ -17,9 +17,9 @@ import java.time.OffsetDateTime
     tableName = SearchHistoryEntry.TABLE_NAME,
     indices = [Index(value = [SearchHistoryEntry.SEARCH])]
 )
-data class SearchHistoryEntry @JvmOverloads constructor(
+data class SearchHistoryEntry(
     @ColumnInfo(name = CREATION_DATE)
-    var creationDate: OffsetDateTime?,
+    val creationDate: OffsetDateTime?,
 
     @ColumnInfo(name = SERVICE_ID)
     val serviceId: Int,

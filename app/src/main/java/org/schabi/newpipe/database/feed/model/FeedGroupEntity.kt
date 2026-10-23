@@ -18,13 +18,13 @@ data class FeedGroupEntity(
     val uid: Long,
 
     @ColumnInfo(name = NAME)
-    var name: String,
+    val name: String,
 
     @ColumnInfo(name = ICON)
-    var icon: FeedGroupIcon,
+    val icon: FeedGroupIcon,
 
     @ColumnInfo(name = SORT_ORDER)
-    var sortOrder: Long = -1
+    val sortOrder: Long = -1
 ) {
     companion object {
         const val FEED_GROUP_TABLE = "feed_group"

@@ -129,9 +129,12 @@ class HistoryRecordManager(context: Context) {
 
                 if (latestEntry != null) {
                     streamHistoryTable.delete(latestEntry)
-                    latestEntry.accessDate = currentTime
-                    latestEntry.repeatCount = latestEntry.repeatCount + 1
-                    streamHistoryTable.insert(latestEntry)
+                    streamHistoryTable.insert(
+                        latestEntry.copy(
+                            accessDate = currentTime,
+                            repeatCount = latestEntry.repeatCount + 1
+                        )
+                    )
                 } else {
                     // just viewed for the first time: set 1 view
                     streamHistoryTable.insert(StreamHistoryEntity(streamId, currentTime, 1))
@@ -183,8 +186,9 @@ class HistoryRecordManager(context: Context) {
                 database.withWriteTransaction {
                     val latestEntry = searchHistoryTable.latestEntry
                     if (latestEntry != null && latestEntry.hasEqualValues(newEntry)) {
-                        latestEntry.creationDate = currentTime
-                        searchHistoryTable.update(latestEntry).toLong()
+                        searchHistoryTable.update(
+                            latestEntry.copy(creationDate = currentTime)
+                        ).toLong()
                     } else {
                         searchHistoryTable.insert(newEntry)
                     }

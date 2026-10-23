@@ -42,10 +42,10 @@ data class StreamHistoryEntity(
     val streamUid: Long,
 
     @ColumnInfo(name = STREAM_ACCESS_DATE)
-    var accessDate: OffsetDateTime,
+    val accessDate: OffsetDateTime,
 
     @ColumnInfo(name = STREAM_REPEAT_COUNT)
-    var repeatCount: Long
+    val repeatCount: Long
 ) {
     companion object {
         const val STREAM_HISTORY_TABLE: String = "stream_history"

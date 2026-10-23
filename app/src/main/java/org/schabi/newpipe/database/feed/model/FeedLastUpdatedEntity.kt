@@ -25,10 +25,10 @@ import org.schabi.newpipe.database.subscription.SubscriptionEntity
 data class FeedLastUpdatedEntity(
     @PrimaryKey
     @ColumnInfo(name = SUBSCRIPTION_ID)
-    var subscriptionId: Long,
+    val subscriptionId: Long,
 
     @ColumnInfo(name = LAST_UPDATED)
-    var lastUpdated: OffsetDateTime? = null
+    val lastUpdated: OffsetDateTime? = null
 ) {
     companion object {
         const val FEED_LAST_UPDATED_TABLE = "feed_last_updated"

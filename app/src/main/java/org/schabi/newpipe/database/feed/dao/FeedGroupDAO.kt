@@ -25,9 +25,7 @@ abstract class FeedGroupDAO {
 
     @Transaction
     open fun insert(feedGroupEntity: FeedGroupEntity): Long {
-        val nextSortOrder = nextSortOrder()
-        feedGroupEntity.sortOrder = nextSortOrder
-        return insertInternal(feedGroupEntity)
+        return insertInternal(feedGroupEntity.copy(sortOrder = nextSortOrder()))
     }
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
