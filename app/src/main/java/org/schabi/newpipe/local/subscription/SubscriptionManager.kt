@@ -66,29 +66,33 @@ class SubscriptionManager(context: Context) {
         }
     }
 
-    fun updateChannelInfo(info: ChannelInfo): Completable = subscriptionTable.getSubscription(info.serviceId, info.url)
-        .flatMapCompletable {
+    fun updateChannelInfo(info: ChannelInfo): Completable = subscriptionTable
+        .getSubscription(info.serviceId, info.url)
+        .flatMapCompletable { entity ->
             Completable.fromRunnable {
-                it.apply {
-                    name = info.name
-                    avatarUrl = ImageStrategy.imageListToDbUrl(info.avatars)
-                    description = info.description
-                    subscriberCount = info.subscriberCount
-                }
-                subscriptionTable.update(it)
+                subscriptionTable.update(
+                    entity.copy(
+                        name = info.name,
+                        avatarUrl = ImageStrategy.imageListToDbUrl(info.avatars),
+                        description = info.description,
+                        subscriberCount = info.subscriberCount
+                    )
+                )
             }
         }
 
-    fun updateNotificationMode(serviceId: Int, url: String, @NotificationMode mode: Int): Completable {
+    fun updateNotificationMode(
+        serviceId: Int,
+        url: String,
+        @NotificationMode mode: Int
+    ): Completable {
         return subscriptionTable().getSubscription(serviceId, url)
-            .flatMapCompletable { entity: SubscriptionEntity ->
-                Completable.fromAction {
-                    entity.notificationMode = mode
-                    subscriptionTable().update(entity)
-                }.apply {
+            .flatMapCompletable { entity ->
+                val newEntity = entity.copy(notificationMode = mode)
+                Completable.fromAction { subscriptionTable().update(newEntity) }.apply {
                     if (mode != NotificationMode.DISABLED) {
                         // notifications have just been enabled, mark all streams as "old"
-                        andThen(rememberAllStreams(entity))
+                        andThen(rememberAllStreams(newEntity))
                     }
                 }
             }
@@ -96,17 +100,18 @@ class SubscriptionManager(context: Context) {
 
     fun updateFromInfo(info: FeedUpdateInfo) {
         val subscriptionEntity = subscriptionTable.getSubscription(info.uid)
+        subscriptionTable.update(
+            subscriptionEntity.copy(
+                name = info.name,
 
-        subscriptionEntity.name = info.name
+                // some services do not provide an avatar URL
+                avatarUrl = info.avatarUrl ?: subscriptionEntity.avatarUrl,
 
-        // some services do not provide an avatar URL
-        info.avatarUrl?.let { subscriptionEntity.avatarUrl = it }
-
-        // these two fields are null if the feed info was fetched using the fast feed method
-        info.description?.let { subscriptionEntity.description = it }
-        info.subscriberCount?.let { subscriptionEntity.subscriberCount = it }
-
-        subscriptionTable.update(subscriptionEntity)
+                // these two fields are null if the feed info was fetched using the fast feed method
+                description = info.description ?: subscriptionEntity.description,
+                subscriberCount = info.subscriberCount ?: subscriptionEntity.subscriberCount
+            )
+        )
     }
 
     fun deleteSubscription(serviceId: Int, url: String): Completable {

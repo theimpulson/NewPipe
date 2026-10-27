@@ -90,26 +90,24 @@ abstract class SubscriptionDAO : BasicDAO<SubscriptionEntity> {
     internal abstract fun getSubscriptionIdInternal(serviceId: Int, url: String): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    internal abstract fun silentInsertAllInternal(entities: List<SubscriptionEntity>): List<Long>
+    internal abstract fun silentInsertInternal(entity: SubscriptionEntity): Long
 
     @Transaction
     open fun upsertAll(entities: List<SubscriptionEntity>): List<SubscriptionEntity> {
-        val insertUidList = silentInsertAllInternal(entities)
+        return entities.map { entity ->
+            val uidFromInsert = silentInsertInternal(entity)
+            val newEntity = when {
+                uidFromInsert != -1L -> entity.copy(uid = uidFromInsert)
 
-        insertUidList.forEachIndexed { index: Int, uidFromInsert: Long ->
-            val entity = entities[index]
-
-            if (uidFromInsert != -1L) {
-                entity.uid = uidFromInsert
-            } else {
-                val subscriptionIdFromDb = getSubscriptionIdInternal(entity.serviceId, entity.url!!)
-                    ?: error("Subscription cannot be null just after insertion.")
-                entity.uid = subscriptionIdFromDb
-
-                update(entity)
+                else -> {
+                    val subscriptionIdFromDb = getSubscriptionIdInternal(
+                        entity.serviceId,
+                        entity.url!!
+                    ) ?: error("Subscription cannot be null just after insertion.")
+                    entity.copy(uid = subscriptionIdFromDb).also { update(entity) }
+                }
             }
+            newEntity
         }
-
-        return entities
     }
 }

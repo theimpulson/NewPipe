@@ -30,29 +30,29 @@ import org.schabi.newpipe.util.image.ImageStrategy
 )
 data class SubscriptionEntity(
     @PrimaryKey(autoGenerate = true)
-    var uid: Long = 0,
+    val uid: Long = 0,
 
     @ColumnInfo(name = SUBSCRIPTION_SERVICE_ID)
-    var serviceId: Int = NO_SERVICE_ID,
+    val serviceId: Int = NO_SERVICE_ID,
 
     @ColumnInfo(name = SUBSCRIPTION_URL)
-    var url: String? = null,
+    val url: String? = null,
 
     @ColumnInfo(name = SUBSCRIPTION_NAME)
-    var name: String? = null,
+    val name: String? = null,
 
     @ColumnInfo(name = SUBSCRIPTION_AVATAR_URL)
-    var avatarUrl: String? = null,
+    val avatarUrl: String? = null,
 
     @ColumnInfo(name = SUBSCRIPTION_SUBSCRIBER_COUNT)
-    var subscriberCount: Long? = null,
+    val subscriberCount: Long? = null,
 
     @ColumnInfo(name = SUBSCRIPTION_DESCRIPTION)
-    var description: String? = null,
+    val description: String? = null,
 
     @get:NotificationMode
     @ColumnInfo(name = SUBSCRIPTION_NOTIFICATION_MODE)
-    var notificationMode: Int = 0
+    val notificationMode: Int = 0
 ) {
     @Ignore
     fun toChannelInfoItem(): ChannelInfoItem {
